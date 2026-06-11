@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>מדריך התקנת Claude Code | בין קודש לקלוד</title>
+
+  <!-- Open Graph — תצוגה מקדימה בווטסאפ, פייסבוק ועוד -->
+  <meta property="og:type"        content="website" />
+  <meta property="og:title"       content="מדריך התקנת Claude Code למתחילים | בין קודש לקלוד" />
+  <meta property="og:description" content="מדריך בעברית פשוטה: איך מתקינים ומפעילים את Claude Code דרך אפליקציית Claude Desktop — שלב אחר שלב, בלי ידע טכני מוקדם." />
+  <meta property="og:image"       content="https://hiyabh.github.io/claude-code-guide/logo.jpg" />
+  <meta property="og:image:width"  content="1080" />
+  <meta property="og:image:height" content="1080" />
+  <meta property="og:url"         content="https://hiyabh.github.io/claude-code-guide/" />
+  <meta property="og:locale"      content="he_IL" />
+
+  <!-- Twitter / WhatsApp fallback -->
+  <meta name="twitter:card"        content="summary_large_image" />
+  <meta name="twitter:title"       content="מדריך התקנת Claude Code למתחילים | בין קודש לקלוד" />
+  <meta name="twitter:description" content="מדריך בעברית פשוטה: איך מתקינים ומפעילים את Claude Code דרך אפליקציית Claude Desktop — שלב אחר שלב, בלי ידע טכני מוקדם." />
+  <meta name="twitter:image"       content="https://hiyabh.github.io/claude-code-guide/logo.jpg" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #1a3a6b;
+      --blue:   #2a5298;
+      --light:  #4a7fc1;
+      --gold:   #c8941a;
+      --gold2:  #e8ab20;
+      --bg:     #f7f8fc;
+      --white:  #ffffff;
+      --text:   #1e2a3a;
+      --muted:  #5a6a7a;
+      --border: #d0daea;
+      --code-bg:#eef3fb;
+      --green:  #1a7a4a;
+      --green-bg: #edfaf3;
+      --green-border: #a8e0c0;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Heebo', 'Arial Hebrew', Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      direction: rtl;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      background: linear-gradient(150deg, #0d1f42 0%, #1a3a6b 50%, #2a5298 100%);
+      padding: 60px 24px 80px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(200,148,26,.12) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 20%, rgba(74,127,193,.15) 0%, transparent 55%);
+      pointer-events: none;
+    }
+
+    .hero-bits {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .bit {
+      position: absolute;
+      font-size: 11px;
+      font-family: monospace;
+      color: rgba(255,255,255,.06);
+      animation: floatUp linear infinite;
+      user-select: none;
+    }
+
+    @keyframes floatUp {
+      0%   { transform: translateY(110vh); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-10vh); opacity: 0; }
+    }
+
+    .hero-logo {
+      width: clamp(130px, 22vw, 200px);
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.45);
+      margin-bottom: 28px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.2;
+      position: relative;
+      z-index: 1;
+      letter-spacing: -0.5px;
+    }
+    .hero h1 span { color: var(--gold2); }
+
+    .hero-sub {
+      margin-top: 14px;
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      color: rgba(255,255,255,.75);
+      font-weight: 300;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badges {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+      position: relative;
+      z-index: 1;
+    }
+    .badge {
+      background: rgba(255,255,255,.12);
+      border: 1px solid rgba(255,255,255,.2);
+      color: #fff;
+      font-size: .85rem;
+      font-weight: 500;
+      padding: 6px 16px;
+      border-radius: 100px;
+      backdrop-filter: blur(4px);
+    }
+    .badge.gold {
+      background: rgba(200,148,26,.2);
+      border-color: var(--gold2);
+      color: var(--gold2);
+    }
+
+    /* ─── CONTAINER ─── */
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    section { padding: 56px 0 20px; }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 28px;
+    }
+    .section-title .icon {
+      width: 42px; height: 42px;
+      background: linear-gradient(135deg, var(--blue), var(--light));
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 1.15rem;
+      flex-shrink: 0;
+      box-shadow: 0 4px 12px rgba(42,82,152,.3);
+    }
+
+    /* ─── CARDS ─── */
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px 32px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 12px rgba(26,58,107,.06);
+      transition: box-shadow .2s;
+    }
+    .card:hover { box-shadow: 0 6px 28px rgba(26,58,107,.11); }
+
+    /* ─── RECOMMENDED BANNER ─── */
+    .rec-banner {
+      background: linear-gradient(135deg, #0d1f42 0%, #1a4a8a 100%);
+      border-radius: 16px;
+      padding: 28px 32px;
+      color: #fff;
+      margin-bottom: 20px;
+      border: 2px solid var(--gold);
+      position: relative;
+      overflow: hidden;
+    }
+    .rec-banner::before {
+      content: '★ מומלץ';
+      position: absolute;
+      top: 14px;
+      left: 20px;
+      background: var(--gold);
+      color: #fff;
+      font-size: .78rem;
+      font-weight: 800;
+      padding: 3px 12px;
+      border-radius: 100px;
+      letter-spacing: .5px;
+    }
+    .rec-banner h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--gold2);
+      margin-bottom: 8px;
+    }
+    .rec-banner p { font-size: .95rem; color: rgba(255,255,255,.82); margin-bottom: 10px; }
+    .rec-banner .dl-btn {
+      display: inline-block;
+      margin-top: 10px;
+      background: var(--gold);
+      color: #fff;
+      font-family: inherit;
+      font-size: .95rem;
+      font-weight: 700;
+      padding: 10px 26px;
+      border-radius: 10px;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+      transition: background .2s, transform .1s;
+    }
+    .rec-banner .dl-btn:hover { background: var(--gold2); transform: translateY(-1px); }
+
+    /* ─── PATH CARDS (Desktop vs VS Code) ─── */
+    .path-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 8px;
+    }
+    @media (max-width: 560px) { .path-grid { grid-template-columns: 1fr; } }
+
+    .path-card {
+      border-radius: 12px;
+      padding: 22px 20px;
+      border: 2px solid var(--border);
+      position: relative;
+    }
+    .path-card.recommended {
+      border-color: var(--gold);
+      background: linear-gradient(160deg, #fffbf0, #fff8e8);
+    }
+    .path-card.advanced {
+      border-color: var(--border);
+      background: var(--code-bg);
+    }
+    .path-card .pc-tag {
+      display: inline-block;
+      font-size: .72rem;
+      font-weight: 800;
+      padding: 2px 10px;
+      border-radius: 100px;
+      margin-bottom: 10px;
+      letter-spacing: .4px;
+    }
+    .path-card.recommended .pc-tag { background: var(--gold); color: #fff; }
+    .path-card.advanced .pc-tag    { background: var(--border); color: var(--muted); }
+    .path-card h3 { font-size: 1.05rem; font-weight: 800; color: var(--navy); margin-bottom: 8px; }
+    .path-card ul { list-style: none; }
+    .path-card ul li {
+      font-size: .9rem;
+      color: var(--muted);
+      padding: 3px 0;
+    }
+    .path-card ul li::before { content: '✓ '; color: var(--green); font-weight: 700; }
+    .path-card.advanced ul li::before { content: '→ '; color: var(--light); }
+
+    /* ─── WHAT IS ─── */
+    .what-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .what-item {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px;
+    }
+    .what-item .wi-icon { font-size: 1.7rem; margin-bottom: 8px; }
+    .what-item h3 { font-size: .95rem; font-weight: 700; color: var(--navy); margin-bottom: 5px; }
+    .what-item p  { font-size: .88rem; color: var(--muted); }
+
+    /* ─── FAQ ─── */
+    .faq-item { margin-bottom: 14px; }
+    .faq-q {
+      font-weight: 700;
+      color: var(--navy);
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 20px;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      transition: background .2s;
+    }
+    .faq-q:hover { background: #e2eaf7; }
+    .faq-q .arrow { font-size: .75rem; transition: transform .25s; flex-shrink: 0; margin-right: 8px; }
+    .faq-q.open .arrow { transform: rotate(180deg); }
+    .faq-a {
+      display: none;
+      padding: 14px 20px 16px;
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-top: none;
+      border-radius: 0 0 10px 10px;
+      font-size: .95rem;
+      color: var(--muted);
+    }
+    .faq-a.visible { display: block; }
+
+    /* ─── DESKTOP STEPS ─── */
+    .desktop-steps { }
+
+    .step {
+      display: flex;
+      gap: 18px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .step:last-child { border-bottom: none; }
+
+    .step-num {
+      width: 38px; height: 38px;
+      background: linear-gradient(135deg, var(--blue), var(--light));
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+      box-shadow: 0 3px 10px rgba(42,82,152,.3);
+    }
+
+    .step-body h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .step-body p {
+      font-size: .93rem;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .step-body p:last-child { margin-bottom: 0; }
+
+    .tip {
+      font-size: .85rem;
+      background: #fef9ec;
+      border: 1px solid #f5d77a;
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #7a5a00;
+      margin-top: 10px;
+    }
+    .tip strong { color: #5a3e00; }
+
+    .note {
+      font-size: .85rem;
+      background: var(--green-bg);
+      border: 1px solid var(--green-border);
+      border-radius: 8px;
+      padding: 10px 14px;
+      color: #1a5a38;
+      margin-top: 10px;
+    }
+
+    /* ─── TABS (Windows/Mac for script section) ─── */
+    .os-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+    }
+    .os-tab {
+      padding: 10px 28px;
+      border-radius: 10px;
+      border: 2px solid var(--border);
+      background: var(--white);
+      font-family: inherit;
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all .2s;
+    }
+    .os-tab.active {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #fff;
+      box-shadow: 0 4px 14px rgba(26,58,107,.25);
+    }
+
+    .os-panel { display: none; }
+    .os-panel.active { display: block; }
+
+    /* ─── CODE BLOCK ─── */
+    .code-wrap {
+      position: relative;
+      margin: 10px 0;
+    }
+    .code-block {
+      background: #0d1f42;
+      color: #a8d1ff;
+      font-family: 'Consolas', 'Courier New', monospace;
+      font-size: .88rem;
+      line-height: 1.6;
+      padding: 16px 50px 16px 16px;
+      border-radius: 10px;
+      overflow-x: auto;
+      direction: ltr;
+      text-align: left;
+      word-break: break-all;
+      display: block;
+    }
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      background: rgba(255,255,255,.12);
+      border: none;
+      border-radius: 7px;
+      color: #fff;
+      font-size: .75rem;
+      font-family: inherit;
+      padding: 5px 10px;
+      cursor: pointer;
+      transition: background .2s;
+    }
+    .copy-btn:hover { background: rgba(255,255,255,.22); }
+    .copy-btn.copied { background: rgba(100,220,130,.25); color: #7effa8; }
+
+    /* ─── INSTALL LIST ─── */
+    .install-list {
+      list-style: none;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 12px;
+      margin-top: 4px;
+    }
+    .install-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 14px;
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: .9rem;
+      font-weight: 500;
+    }
+    .install-list li .il-icon {
+      width: 32px; height: 32px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 1rem;
+      background: var(--white);
+      box-shadow: 0 2px 6px rgba(0,0,0,.08);
+      flex-shrink: 0;
+    }
+
+    /* ─── PROBLEMS ─── */
+    .problem-card {
+      border-right: 4px solid var(--gold);
+      padding-right: 16px;
+      margin-bottom: 20px;
+    }
+    .problem-card h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 6px;
+    }
+    .problem-card p { font-size: .93rem; color: var(--muted); }
+
+    /* ─── VERIFY ─── */
+    .verify-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    @media (max-width: 540px) { .verify-grid { grid-template-columns: 1fr; } }
+
+    .verify-card {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 18px 20px;
+    }
+    .verify-card h4 {
+      font-size: .95rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 10px;
+    }
+
+    /* ─── CREDIT ─── */
+    .credit-bar {
+      background: linear-gradient(135deg, #0d1f42, #1a3a6b);
+      border-radius: 16px;
+      padding: 32px 36px;
+      color: #fff;
+      display: flex;
+      align-items: center;
+      gap: 24px;
+      flex-wrap: wrap;
+      margin-top: 48px;
+      margin-bottom: 20px;
+    }
+    .credit-bar .cl { flex: 1; min-width: 200px; }
+    .credit-bar h3 { font-size: 1.05rem; font-weight: 700; color: var(--gold2); margin-bottom: 6px; }
+    .credit-bar p  { font-size: .9rem; color: rgba(255,255,255,.75); }
+    .credit-bar a  { color: var(--gold2); text-decoration: none; font-weight: 600; }
+    .credit-bar a:hover { text-decoration: underline; }
+    .credit-logo { width: 70px; border-radius: 10px; }
+
+    footer {
+      text-align: center;
+      padding: 30px 20px 40px;
+      font-size: .82rem;
+      color: var(--muted);
+    }
+
+    .divider {
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── LINK CARDS ─── */
+    .link-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 20px 18px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      box-shadow: 0 2px 10px rgba(26,58,107,.06);
+      transition: box-shadow .2s, transform .15s;
+      height: 100%;
+    }
+    .link-card:hover {
+      box-shadow: 0 6px 24px rgba(26,58,107,.13);
+      transform: translateY(-2px);
+    }
+    .link-card.green {
+      border-color: var(--green-border);
+      background: var(--green-bg);
+    }
+    .link-card.green:hover { box-shadow: 0 6px 24px rgba(26,122,74,.15); }
+    .lc-icon {
+      font-size: 1.7rem;
+      flex-shrink: 0;
+      width: 44px;
+      text-align: center;
+    }
+    .lc-body { flex: 1; }
+    .lc-body h3 {
+      font-size: .97rem;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 4px;
+      line-height: 1.3;
+    }
+    .link-card.green .lc-body h3 { color: var(--green); }
+    .lc-body p {
+      font-size: .83rem;
+      color: var(--muted);
+      line-height: 1.4;
+    }
+    .lc-arrow {
+      font-size: 1.1rem;
+      color: var(--light);
+      flex-shrink: 0;
+    }
+    .link-card.green .lc-arrow { color: var(--green); }
+
+    @media (max-width: 600px) {
+      .card { padding: 20px; }
+      .rec-banner { padding: 22px 18px; }
+      .step { gap: 12px; }
+      .credit-bar { padding: 24px 20px; }
+      .os-tab { padding: 9px 18px; font-size: .88rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── HERO ─── -->
+<header class="hero">
+  <div class="hero-bits" id="heroBits"></div>
+  <img src="logo.jpg" alt="בין קודש לקלוד" class="hero-logo" />
+  <h1>מדריך התקנת <span>Claude Code</span><br>למתחילים</h1>
+  <p class="hero-sub">שלב אחר שלב, בעברית פשוטה — בלי ידע טכני מוקדם</p>
+  <div class="hero-badges">
+    <span class="badge">Windows</span>
+    <span class="badge">Mac</span>
+    <span class="badge gold">דרך אפליקציית Claude Desktop</span>
+    <span class="badge">חינמי להתקנה</span>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- ─── מה זה ─── -->
+  <section id="what">
+    <h2 class="section-title">
+      <span class="icon">🤔</span>
+      מה זה Claude Code ולמה כדאי?
+    </h2>
+    <div class="card">
+      <p style="font-size:1.05rem; margin-bottom:20px;">
+        Claude Code הוא כלי שמאפשר לעבוד עם <strong>Claude</strong> — הבינה המלאכותית של Anthropic — <strong>ישירות מהמחשב שלכם</strong>, על הקבצים שלכם. במקום להדביק קוד ב-chat, Claude רואה את הפרויקט שלכם ועוזר בצורה חכמה הרבה יותר.
+      </p>
+      <div class="what-grid">
+        <div class="what-item">
+          <div class="wi-icon">📁</div>
+          <h3>רואה את הפרויקט שלכם</h3>
+          <p>מבין את כל הקבצים בתיקייה, לא רק קטע בודד</p>
+        </div>
+        <div class="what-item">
+          <div class="wi-icon">✏️</div>
+          <h3>כותב ועורך ישירות</h3>
+          <p>לא צריך להעתיק-הדביק — Claude פשוט עושה את השינוי</p>
+        </div>
+        <div class="what-item">
+          <div class="wi-icon">🖥️</div>
+          <h3>ממשק חזותי נוח</h3>
+          <p>דרך אפליקציה מסודרת — לא צריך לדעת פקודות מורכבות</p>
+        </div>
+        <div class="what-item">
+          <div class="wi-icon">🧠</div>
+          <h3>זוכר הקשר</h3>
+          <p>מבין את כל הפרויקט לאורך כל השיחה</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── שתי דרכים ─── -->
+  <section id="paths">
+    <h2 class="section-title">
+      <span class="icon">🗺️</span>
+      איך עובדים עם Claude Code?
+    </h2>
+
+    <div class="path-grid">
+      <div class="path-card recommended">
+        <span class="pc-tag">למתחילים — מומלץ</span>
+        <h3>אפליקציית Claude Desktop</h3>
+        <ul>
+          <li>ממשק חזותי נוח ומסודר</li>
+          <li>אין צורך בהתקנות מורכבות</li>
+          <li>כפתור Code מובנה באפליקציה</li>
+          <li>רואים את שינויי הקוד בצורה ברורה</li>
+          <li>מתאים גם למי שלא מתכנת</li>
+        </ul>
+      </div>
+      <div class="path-card advanced">
+        <span class="pc-tag">למתקדמים</span>
+        <h3>VS Code + Terminal</h3>
+        <ul>
+          <li>מתאים למפתחים מנוסים</li>
+          <li>שליטה מלאה בפקודות</li>
+          <li>אוטומציות ו-scripts</li>
+          <li>דורש ידע בסיסי בטרמינל</li>
+        </ul>
+      </div>
+    </div>
+    <p style="font-size:.9rem; color: var(--muted); margin-top: 4px;">
+      המדריך הזה מתמקד בדרך המומלצת — <strong>אפליקציית Claude Desktop</strong>.
+    </p>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── שאלות נפוצות ─── -->
+  <section id="faq">
+    <h2 class="section-title">
+      <span class="icon">❓</span>
+      שאלות נפוצות לפני שמתחילים
+    </h2>
+    <div class="card" style="padding-bottom: 8px;">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          אני לא מתכנת/ת — זה בשבילי? <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          בהחלט. אפליקציית Claude Desktop מתאימה לכולם — יש בה ממשק ויזואלי ולא צריך לדעת להשתמש בטרמינל. מורידים, מתקינים, ועובדים.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          מה ההבדל בין claude.ai (האתר) לאפליקציית Desktop? <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          האתר (claude.ai) הוא chat רגיל — כותבים שאלות, מקבלים תשובות. האפליקציה מוסיפה מעל זה <strong>Tab מיוחד בשם "Code"</strong> שמאפשר ל-Claude לגשת ולערוך את הקבצים האמיתיים שלכם על המחשב. זה ממש אחר.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          צריך לשלם? <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          האפליקציה עצמה חינמית להורדה. כדי להשתמש ב-Code Tab (שזה הלב של Claude Code) צריך <strong>מנוי Claude Pro</strong> — כ-20 דולר לחודש. יש גרסת Chat חינמית, אבל ללא גישה לקבצים.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          האם זה בטוח — Claude יגש לכל הקבצים שלי? <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          Claude ניגש רק לתיקייה שבחרתם בעצמכם לתת לו גישה. הוא לא יכול לגלוש לשאר המחשב. כל פעולה שהוא עושה מוצגת לכם ואפשר לאשר או לבטל.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">
+          Windows או Mac — יש הבדל? <span class="arrow">▼</span>
+        </div>
+        <div class="faq-a">
+          האפליקציה עובדת על שניהם. ב-Windows יש דרישה אחת נוספת — להתקין Git לפני שפותחים את Code Tab לראשונה (מוסבר בשלב 3 למטה).
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── שלב ראשון — הורדה ── -->
+  <section id="install">
+    <h2 class="section-title">
+      <span class="icon">🚀</span>
+      שלב 1 — הורידו את אפליקציית Claude Desktop
+    </h2>
+
+    <div class="rec-banner">
+      <h3>הורידו את האפליקציה מהאתר הרשמי</h3>
+      <p>
+        ההורדה היא מ-Anthropic ישירות — לא מחנויות אפליקציות של צד שלישי.
+        הקליקו על הכפתור המתאים למחשב שלכם:
+      </p>
+      <a href="https://claude.com/download" target="_blank" rel="noopener" class="dl-btn">
+        עבור לדף ההורדה הרשמי ← claude.com/download
+      </a>
+      <p style="margin-top: 14px; font-size: .85rem; opacity: .75;">
+        בדף ההורדה תמצאו כפתורים נפרדים ל-Windows וגם ל-Mac.
+        הורידו את הקובץ המתאים למחשב שלכם והפעילו אותו.
+      </p>
+    </div>
+
+    <div class="card">
+      <div class="step">
+        <div class="step-num">א</div>
+        <div class="step-body">
+          <h3>Windows — הפעלת קובץ ההתקנה</h3>
+          <p>לאחר ההורדה תקבלו קובץ בשם משהו כמו <code style="background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88rem;">Claude-Setup.exe</code>. לחצו עליו פעמיים, אשרו את בקשת המנהל שתופיע, וחכו שיסתיים.</p>
+          <div class="note">אחרי ההתקנה, האפליקציה תופיע בתפריט Start.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">ב</div>
+        <div class="step-body">
+          <h3>Mac — פתיחת קובץ ה-DMG</h3>
+          <p>לאחר ההורדה תקבלו קובץ <code style="background:var(--code-bg);padding:2px 6px;border-radius:4px;font-size:.88rem;">.dmg</code>. פתחו אותו, גררו את האפליקציה לתיקיית Applications, וסגרו.</p>
+          <div class="note">פתחו את Claude מתיקיית Applications או מ-Spotlight (Cmd+Space).</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── שלב שני — התחברות ─── -->
+  <section id="signin">
+    <h2 class="section-title">
+      <span class="icon">🔑</span>
+      שלב 2 — התחברות לחשבון
+    </h2>
+    <div class="card">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>פתחו את האפליקציה והתחברו</h3>
+          <p>האפליקציה תבקש להתחבר עם חשבון Anthropic. אם אין לכם חשבון — אפשר ליצור אחד בחינם באתר <strong>claude.ai</strong>.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>וודאו שיש לכם מנוי Pro</h3>
+          <p>כדי להשתמש ב-Code Tab (שהוא הלב של Claude Code) נדרש מנוי Claude Pro (~$20/חודש). אם תלחצו על ה-Code Tab ותראו הודעת שדרוג — זה הסימן.</p>
+          <div class="tip"><strong>לניהול המנוי:</strong> היכנסו ל-claude.ai ← הגדרות ← Plans</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── שלב שלישי — Git ל-Windows ─── -->
+  <section id="git-windows">
+    <h2 class="section-title">
+      <span class="icon">🪟</span>
+      שלב 3 — Windows בלבד: התקנת Git
+    </h2>
+    <div class="card">
+      <p style="margin-bottom: 16px; color: var(--muted);">
+        ב-Mac זה לא נדרש. ב-Windows חייבים להתקין <strong>Git</strong> לפני שפותחים את Code Tab לראשונה — בלי זה הוא לא יעבוד.
+      </p>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>הורידו Git for Windows</h3>
+          <p>היכנסו לאתר הרשמי: <strong>git-scm.com/downloads/win</strong> ולחצו על "Download for Windows".</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>הריצו את המתקין</h3>
+          <p>פתחו את קובץ ה-exe שהורדתם. אפשר ללחוץ "Next" בכל המסכים — ברירות המחדל בסדר גמור.</p>
+          <div class="tip"><strong>לא לדאוג</strong> מהכמות הגדולה של אפשרויות — ברירות המחדל מתאימות לרוב הצרכים.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>הפעילו מחדש את אפליקציית Claude</h3>
+          <p>לאחר התקנת Git, סגרו ופתחו שוב את אפליקציית Claude Desktop. עכשיו Code Tab יעבוד.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── שלב רביעי — Code Tab ─── -->
+  <section id="use-code">
+    <h2 class="section-title">
+      <span class="icon">💻</span>
+      שלב 4 — עבודה עם Code Tab
+    </h2>
+    <div class="card">
+      <p style="margin-bottom: 20px; color: var(--muted);">
+        בתוך האפליקציה תראו בחלק העליון שלושה Tabs: <strong>Chat</strong>, <strong>Cowork</strong>, ו-<strong>Code</strong>. לחצו על <strong>Code</strong>.
+      </p>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-body">
+          <h3>לחצו על "Code" בחלק העליון</h3>
+          <p>ה-Code Tab הוא המקום שבו Claude Code עובד. זה מה שמאפשר לו לגשת לקבצים שלכם ולערוך אותם.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-body">
+          <h3>בחרו "Local" ואחר כך "Select folder"</h3>
+          <p>תופיע שאלה על סביבת עבודה — בחרו <strong>Local</strong> (זה עובד על הקבצים שלכם במחשב). אחר כך לחצו <strong>"Select folder"</strong> ובחרו את התיקייה שרוצים לעבוד עליה.</p>
+          <div class="tip"><strong>תיקייה?</strong> זה פשוט — יצרתם תיקייה חדשה בשם "הפרויקט שלי"? זה מה שבוחרים. Claude יוכל לראות ולערוך רק קבצים בתוכה.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-body">
+          <h3>בחרו מודל ותתחילו</h3>
+          <p>יש תפריט לבחירת מודל — ברירת המחדל מתאימה. עכשיו פשוט כתבו בעברית מה אתם רוצים שקלוד יעשה, ולחצו Enter.</p>
+          <div class="note">
+            לדוגמה: <em>"צור לי קובץ HTML עם דף בית פשוט בעברית"</em> — וקלוד יכתוב את הקובץ ישירות בתיקייה שבחרתם.
+          </div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-body">
+          <h3>ראו את השינויים לפני שמאשרים</h3>
+          <p>Claude מציג לכם תצוגת Diff — מה שינה, מה הוסיף, מה מחק. ירוק = נוסף, אדום = הוסר. אפשר לאשר הכל, לאשר רק חלק, או לבקש שינויים.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── הסקריפט — למי שרוצה Git/Node גם בטרמינל ─── -->
+  <section id="script">
+    <h2 class="section-title">
+      <span class="icon">📦</span>
+      רוצים גם את הכלים בטרמינל? (אופציונלי)
+    </h2>
+    <div class="card">
+      <p style="margin-bottom: 16px; color: var(--muted); font-size:.95rem;">
+        אם תרצו להשתמש ב-Claude Code גם דרך הטרמינל בעתיד (למתקדמים), סקריפט זה מתקין בפקודה אחת את Git, Node.js, ו-Claude Code CLI:
+      </p>
+
+      <div class="os-tabs">
+        <button class="os-tab active" onclick="switchOS('windows')">🪟 Windows</button>
+        <button class="os-tab" onclick="switchOS('mac')">🍎 Mac</button>
+      </div>
+
+      <div class="os-panel active" id="panel-windows">
+        <p style="margin-bottom:10px; font-size:.93rem; color: var(--muted);">פתחו PowerShell <strong>כמנהל</strong> (לחצן ימני → "הפעל כמנהל") והדביקו:</p>
+        <div class="code-wrap">
+          <code class="code-block" id="win-cmd">irm "https://raw.githubusercontent.com/RanNahmany/claude-code-one-click-install/main/windows/install.bat" -OutFile install.bat; .\install.bat</code>
+          <button class="copy-btn" onclick="copyCode('win-cmd', this)">העתק</button>
+        </div>
+        <div class="tip" style="margin-top:12px;">
+          <strong>PowerShell כמנהל:</strong> חיפוש ← PowerShell ← לחצן ימני ← "הפעל כמנהל". בסיום — פתחו חלון PowerShell חדש.
+        </div>
+      </div>
+
+      <div class="os-panel" id="panel-mac">
+        <p style="margin-bottom:10px; font-size:.93rem; color: var(--muted);">פתחו Terminal (Cmd+Space ← Terminal) והדביקו:</p>
+        <div class="code-wrap">
+          <code class="code-block" id="mac-cmd">curl -fsSL https://raw.githubusercontent.com/RanNahmany/claude-code-one-click-install/main/mac/install.sh | bash</code>
+          <button class="copy-btn" onclick="copyCode('mac-cmd', this)">העתק</button>
+        </div>
+        <div class="tip" style="margin-top:12px;">
+          <strong>אם מבקשים סיסמה:</strong> הקלידו את סיסמת ה-Mac. הסיסמה לא מוצגת על המסך — זה נורמלי. לחצו Enter.
+        </div>
+      </div>
+
+      <p style="margin-top: 18px; font-size:.85rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 14px;">
+        הסקריפט מוצע כאן כאופציה בלבד. לרוב המשתמשים — <strong>אפליקציית Claude Desktop מספיקה לחלוטין</strong> ואין צורך בסקריפט.
+      </p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── בעיות נפוצות ─── -->
+  <section id="problems">
+    <h2 class="section-title">
+      <span class="icon">🔧</span>
+      בעיות נפוצות ואיך פותרים
+    </h2>
+    <div class="card">
+
+      <div class="problem-card">
+        <h3>Code Tab מראה הודעת "Upgrade"</h3>
+        <p>הסיבה: לא מחובר למנוי Pro.<br>
+        <strong>פתרון:</strong> היכנסו ל-claude.ai ← הגדרות ← Plans ושדרגו לPro.</p>
+      </div>
+
+      <div class="problem-card">
+        <h3>Windows: Code Tab לא נפתח / שגיאה</h3>
+        <p>הסיבה: Git לא מותקן.<br>
+        <strong>פתרון:</strong> התקינו Git from git-scm.com/downloads/win, ואחר כך הפעילו מחדש את אפליקציית Claude.</p>
+      </div>
+
+      <div class="problem-card">
+        <h3>שגיאת 403 / "Sign in again"</h3>
+        <p>הסיבה: תוקף ההתחברות פג.<br>
+        <strong>פתרון:</strong> התנתקו מהאפליקציה והתחברו שוב.</p>
+      </div>
+
+      <div class="problem-card">
+        <h3>האפליקציה לא מוצאת את התיקייה שבחרתי</h3>
+        <p>נסו לבחור שוב עם "Select folder". ודאו שהתיקייה קיימת ואין בנתיב שלה תווים מיוחדים.</p>
+      </div>
+
+      <div class="problem-card" style="border-color: var(--light);">
+        <h3>⚙️ בעיות עם הסקריפט (למי שהריץ אותו)</h3>
+        <p style="margin-bottom:10px;">אם הסקריפט נכשל, אפשר להריץ במצב Debug לראות את הפירוט:</p>
+        <p style="margin-bottom:6px; font-weight:600; font-size:.88rem; color: var(--navy);">Windows (PowerShell כמנהל):</p>
+        <div class="code-wrap">
+          <code class="code-block" id="debug-win" style="font-size:.83rem;">.\install.bat --debug</code>
+          <button class="copy-btn" onclick="copyCode('debug-win', this)">העתק</button>
+        </div>
+        <p style="margin: 10px 0 6px; font-weight:600; font-size:.88rem; color: var(--navy);">Mac (Terminal):</p>
+        <div class="code-wrap">
+          <code class="code-block" id="debug-mac" style="font-size:.83rem;">curl -fsSL https://raw.githubusercontent.com/RanNahmany/claude-code-one-click-install/main/mac/install.sh | bash -s -- --debug</code>
+          <button class="copy-btn" onclick="copyCode('debug-mac', this)">העתק</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ─── קישורים נוספים ─── -->
+  <section id="links">
+    <h2 class="section-title">
+      <span class="icon">🌹</span>
+      קישורים שכדאי להכיר
+    </h2>
+    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); gap:16px; margin-bottom:8px;">
+
+      <a href="https://drashotforyou.blogspot.com/p/claude-gpt-gpt-gpt-gemini-letsai.html"
+         target="_blank" rel="noopener"
+         style="text-decoration:none;">
+        <div class="link-card">
+          <div class="lc-icon">🤖</div>
+          <div class="lc-body">
+            <h3>כלי בינה מלאכותית — מדריך מפורט</h3>
+            <p>סקירה מקיפה של Claude, GPT, Gemini וכלי AI נוספים — הכל במקום אחד</p>
+          </div>
+          <span class="lc-arrow">←</span>
+        </div>
+      </a>
+
+      <a href="https://chat.whatsapp.com/JIpBm6No68eDlaYZiKEkiv"
+         target="_blank" rel="noopener"
+         style="text-decoration:none;">
+        <div class="link-card green">
+          <div class="lc-icon">💬</div>
+          <div class="lc-body">
+            <h3>קבוצת עדכוני AI — בין קודש לקוד</h3>
+            <p>הצטרפו לקבוצת WhatsApp עם עדכונים שוטפים על כלי בינה מלאכותית</p>
+          </div>
+          <span class="lc-arrow">←</span>
+        </div>
+      </a>
+
+      <a href="https://chat.whatsapp.com/Hr8UI2Oy6lkJTPY3tizdSd?s=cl&p=a&mlu=1"
+         target="_blank" rel="noopener"
+         style="text-decoration:none;">
+        <div class="link-card green">
+          <div class="lc-icon">🔔</div>
+          <div class="lc-body">
+            <h3>בין קודש לקלוד — עדכוני Claude Code</h3>
+            <p>קבוצת WhatsApp ייעודית לעדכונים בנושא Claude Code</p>
+          </div>
+          <span class="lc-arrow">←</span>
+        </div>
+      </a>
+
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ─── Credit ─── -->
+  <div class="credit-bar">
+    <img src="logo.jpg" alt="לוגו" class="credit-logo" />
+    <div class="cl">
+      <h3>Credit — Original Installer</h3>
+      <p>
+        הסקריפט המוצג במדריך זה הוא יצירתו של
+        <a href="https://github.com/RanNahmany" target="_blank" rel="noopener">Ran Nahmany</a>:<br>
+        <a href="https://github.com/RanNahmany/claude-code-one-click-install" target="_blank" rel="noopener">
+          claude-code-one-click-install
+        </a>
+        — <em>A one-click Claude Code installer designed for students.</em>
+      </p>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>בין קודש לקלוד &nbsp;·&nbsp; מדריך למתחילים &nbsp;·&nbsp; נכתב בעברית פשוטה</p>
+</footer>
+
+<script>
+  /* ── floating bits ── */
+  const bits = document.getElementById('heroBits');
+  const chars = ['0','1'];
+  for (let i = 0; i < 55; i++) {
+    const el = document.createElement('span');
+    el.className = 'bit';
+    el.textContent = Array.from({length: Math.floor(Math.random()*6)+4},
+      () => chars[Math.floor(Math.random()*2)]).join('');
+    el.style.left = Math.random()*100 + '%';
+    el.style.animationDuration = (12 + Math.random()*18) + 's';
+    el.style.animationDelay   = -(Math.random()*22) + 's';
+    el.style.fontSize = (9 + Math.random()*6) + 'px';
+    bits.appendChild(el);
+  }
+
+  /* ── OS tabs ── */
+  function switchOS(os) {
+    document.querySelectorAll('.os-tab').forEach((t,i) => {
+      t.classList.toggle('active', (i===0 && os==='windows') || (i===1 && os==='mac'));
+    });
+    document.getElementById('panel-windows').classList.toggle('active', os==='windows');
+    document.getElementById('panel-mac').classList.toggle('active', os==='mac');
+  }
+
+  /* ── FAQ ── */
+  function toggleFaq(el) {
+    const ans = el.nextElementSibling;
+    el.classList.toggle('open');
+    ans.classList.toggle('visible');
+  }
+
+  /* ── copy ── */
+  function copyCode(id, btn) {
+    const text = document.getElementById(id).textContent.trim();
+    navigator.clipboard.writeText(text).then(() => {
+      btn.textContent = '✓ הועתק';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'העתק'; btn.classList.remove('copied'); }, 2000);
+    });
+  }
+</script>
+</body>
+</html>
