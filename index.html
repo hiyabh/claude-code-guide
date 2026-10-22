@@ -427,7 +427,7 @@
       font-family: 'Consolas', 'Courier New', monospace;
       font-size: .88rem;
       line-height: 1.6;
-      padding: 16px 50px 16px 16px;
+      padding: 16px 16px 16px 76px;
       border-radius: 10px;
       overflow-x: auto;
       direction: ltr;
@@ -748,7 +748,7 @@
           Windows או Mac — יש הבדל? <span class="arrow">▼</span>
         </div>
         <div class="faq-a">
-          האפליקציה עובדת על שניהם. ב-Windows יש דרישה אחת נוספת — להתקין Git לפני שפותחים את Code Tab לראשונה (מוסבר בשלב 3 למטה).
+          האפליקציה עובדת על שניהם באותה צורה. ב-Windows כבר לא צריך להתקין Git — מורידים את האפליקציה ומתחילים לעבוד.
         </div>
       </div>
 
@@ -828,48 +828,11 @@
 
   <div class="divider"></div>
 
-  <!-- ─── שלב שלישי — Git ל-Windows ─── -->
-  <section id="git-windows">
-    <h2 class="section-title">
-      <span class="icon">🪟</span>
-      שלב 3 — Windows בלבד: התקנת Git
-    </h2>
-    <div class="card">
-      <p style="margin-bottom: 16px; color: var(--muted);">
-        ב-Mac זה לא נדרש. ב-Windows חייבים להתקין <strong>Git</strong> לפני שפותחים את Code Tab לראשונה — בלי זה הוא לא יעבוד.
-      </p>
-      <div class="step">
-        <div class="step-num">1</div>
-        <div class="step-body">
-          <h3>הורידו Git for Windows</h3>
-          <p>היכנסו לאתר הרשמי: <strong>git-scm.com/downloads/win</strong> ולחצו על "Download for Windows".</p>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div class="step-body">
-          <h3>הריצו את המתקין</h3>
-          <p>פתחו את קובץ ה-exe שהורדתם. אפשר ללחוץ "Next" בכל המסכים — ברירות המחדל בסדר גמור.</p>
-          <div class="tip"><strong>לא לדאוג</strong> מהכמות הגדולה של אפשרויות — ברירות המחדל מתאימות לרוב הצרכים.</div>
-        </div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div class="step-body">
-          <h3>הפעילו מחדש את אפליקציית Claude</h3>
-          <p>לאחר התקנת Git, סגרו ופתחו שוב את אפליקציית Claude Desktop. עכשיו Code Tab יעבוד.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="divider"></div>
-
-  <!-- ─── שלב רביעי — Code Tab ─── -->
+  <!-- ─── שלב שלישי — Code Tab ─── -->
   <section id="use-code">
     <h2 class="section-title">
       <span class="icon">💻</span>
-      שלב 4 — עבודה עם Code Tab
+      שלב 3 — עבודה עם Code Tab
     </h2>
     <div class="card">
       <p style="margin-bottom: 20px; color: var(--muted);">
@@ -912,15 +875,15 @@
 
   <div class="divider"></div>
 
-  <!-- ─── הסקריפט — למי שרוצה Git/Node גם בטרמינל ─── -->
+  <!-- ─── התקנה רשמית בטרמינל (אופציונלי) ─── -->
   <section id="script">
     <h2 class="section-title">
       <span class="icon">📦</span>
-      רוצים גם את הכלים בטרמינל? (אופציונלי)
+      רוצים גם את Claude Code בטרמינל? (אופציונלי)
     </h2>
     <div class="card">
       <p style="margin-bottom: 16px; color: var(--muted); font-size:.95rem;">
-        אם תרצו להשתמש ב-Claude Code גם דרך הטרמינל בעתיד (למתקדמים), סקריפט זה מתקין בפקודה אחת את Git, Node.js, ו-Claude Code CLI:
+        אם תרצו להשתמש ב-Claude Code גם דרך הטרמינל (למתקדמים), יש פקודה רשמית אחת של Anthropic שמתקינה אותו. לא צריך Git ולא צריך Node.js:
       </p>
 
       <div class="os-tabs">
@@ -929,29 +892,29 @@
       </div>
 
       <div class="os-panel active" id="panel-windows">
-        <p style="margin-bottom:10px; font-size:.93rem; color: var(--muted);">פתחו PowerShell <strong>כמנהל</strong> (לחצן ימני → "הפעל כמנהל") והדביקו:</p>
+        <p style="margin-bottom:10px; font-size:.93rem; color: var(--muted);">פתחו <strong>PowerShell</strong> והדביקו:</p>
         <div class="code-wrap">
-          <code class="code-block" id="win-cmd">irm "https://raw.githubusercontent.com/RanNahmany/claude-code-one-click-install/main/windows/install.bat" -OutFile install.bat; .\install.bat</code>
+          <code class="code-block" id="win-cmd">irm https://claude.ai/install.ps1 | iex</code>
           <button class="copy-btn" onclick="copyCode('win-cmd', this)">העתק</button>
         </div>
         <div class="tip" style="margin-top:12px;">
-          <strong>PowerShell כמנהל:</strong> חיפוש ← PowerShell ← לחצן ימני ← "הפעל כמנהל". בסיום — פתחו חלון PowerShell חדש.
+          <strong>איך פותחים PowerShell:</strong> חיפוש ← PowerShell ← Enter. לא צריך הרשאות מנהל. בסיום פתחו חלון חדש והקלידו <code>claude</code>.
         </div>
       </div>
 
       <div class="os-panel" id="panel-mac">
         <p style="margin-bottom:10px; font-size:.93rem; color: var(--muted);">פתחו Terminal (Cmd+Space ← Terminal) והדביקו:</p>
         <div class="code-wrap">
-          <code class="code-block" id="mac-cmd">curl -fsSL https://raw.githubusercontent.com/RanNahmany/claude-code-one-click-install/main/mac/install.sh | bash</code>
+          <code class="code-block" id="mac-cmd">curl -fsSL https://claude.ai/install.sh | bash</code>
           <button class="copy-btn" onclick="copyCode('mac-cmd', this)">העתק</button>
         </div>
         <div class="tip" style="margin-top:12px;">
-          <strong>אם מבקשים סיסמה:</strong> הקלידו את סיסמת ה-Mac. הסיסמה לא מוצגת על המסך — זה נורמלי. לחצו Enter.
+          <strong>בסיום:</strong> פתחו חלון Terminal חדש והקלידו <code>claude</code>.
         </div>
       </div>
 
       <p style="margin-top: 18px; font-size:.85rem; color: var(--muted); border-top: 1px solid var(--border); padding-top: 14px;">
-        הסקריפט מוצע כאן כאופציה בלבד. לרוב המשתמשים — <strong>אפליקציית Claude Desktop מספיקה לחלוטין</strong> ואין צורך בסקריפט.
+        זו אופציה בלבד. לרוב המשתמשים — <strong>אפליקציית Claude Desktop מספיקה לחלוטין</strong> ואין צורך בטרמינל.
       </p>
     </div>
   </section>
@@ -973,9 +936,9 @@
       </div>
 
       <div class="problem-card">
-        <h3>Windows: Code Tab לא נפתח / שגיאה</h3>
-        <p>הסיבה: Git לא מותקן.<br>
-        <strong>פתרון:</strong> התקינו Git from git-scm.com/downloads/win, ואחר כך הפעילו מחדש את אפליקציית Claude.</p>
+        <h3>Windows: מופיעה הודעה שצריך להתקין Git</h3>
+        <p>הסיבה: גרסה ישנה של האפליקציה.<br>
+        <strong>פתרון:</strong> עדכנו את האפליקציה (תפריט Help ← Check for Updates). בגרסאות החדשות כבר לא צריך Git.</p>
       </div>
 
       <div class="problem-card">
@@ -990,18 +953,12 @@
       </div>
 
       <div class="problem-card" style="border-color: var(--light);">
-        <h3>⚙️ בעיות עם הסקריפט (למי שהריץ אותו)</h3>
-        <p style="margin-bottom:10px;">אם הסקריפט נכשל, אפשר להריץ במצב Debug לראות את הפירוט:</p>
-        <p style="margin-bottom:6px; font-weight:600; font-size:.88rem; color: var(--navy);">Windows (PowerShell כמנהל):</p>
-        <div class="code-wrap">
-          <code class="code-block" id="debug-win" style="font-size:.83rem;">.\install.bat --debug</code>
-          <button class="copy-btn" onclick="copyCode('debug-win', this)">העתק</button>
-        </div>
-        <p style="margin: 10px 0 6px; font-weight:600; font-size:.88rem; color: var(--navy);">Mac (Terminal):</p>
-        <div class="code-wrap">
-          <code class="code-block" id="debug-mac" style="font-size:.83rem;">curl -fsSL https://raw.githubusercontent.com/RanNahmany/claude-code-one-click-install/main/mac/install.sh | bash -s -- --debug</code>
-          <button class="copy-btn" onclick="copyCode('debug-mac', this)">העתק</button>
-        </div>
+        <h3>⚙️ ההתקנה בטרמינל לא הצליחה</h3>
+        <p style="margin-bottom:10px;">
+          <strong>מופיע <code>'irm' is not recognized</code>:</strong> פתחתם CMD במקום PowerShell. פתחו PowerShell והדביקו שוב.<br>
+          <strong>מופיע ש-<code>claude</code> לא נמצא:</strong> סגרו את החלון ופתחו חלון חדש.<br>
+          <strong>שגיאה אחרת:</strong> בדף <a href="https://code.claude.com/docs/en/troubleshoot-install" target="_blank" rel="noopener">פתרון בעיות ההתקנה</a> הרשמי יש פתרון לכל הודעה.
+        </p>
       </div>
 
     </div>
@@ -1065,7 +1022,7 @@
     <div class="cl">
       <h3>Credit — Original Installer</h3>
       <p>
-        הסקריפט המוצג במדריך בנוי על יצירתו הנפלאה של
+        גרסה קודמת של המדריך התבססה על יצירתו הנפלאה של
         <a href="https://github.com/RanNahmany" target="_blank" rel="noopener">Ran Nahmany</a>:<br>
         <a href="https://github.com/RanNahmany/claude-code-one-click-install" target="_blank" rel="noopener">
           claude-code-one-click-install
